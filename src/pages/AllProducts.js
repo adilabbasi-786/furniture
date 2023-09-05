@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./priceRange.css";
 
 import prod1 from "../assests/product/product_1.png";
@@ -12,6 +12,16 @@ import prod8 from "../assests/product/product_7.png";
 import Footer from "../components/Footer";
 
 function AllProducts() {
+  const [product, setProduct] = useState([]);
+
+  const getData = async () => {
+    let req = await fetch("http://localhost:1337/api/products?populate=*");
+    let res = await req.json();
+    setProduct(res.data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -269,114 +279,24 @@ function AllProducts() {
               </div>
 
               <div class="row align-items-center latest_product_inner">
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod1} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
+                {product.map((item) => (
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="single_product_item">
+                      <img
+                        src={`http://localhost:1337${item?.attributes?.img?.data[0]?.attributes?.url}`}
+                        alt=""
+                      />
+                      <div class="single_product_text">
+                        <h4>{item?.attributes?.title}</h4>
+                        <h3>${item?.attributes?.price}</h3>
+                        <a href="#" class="add_cart">
+                          + add to cart<i class="fas fa-cart-plus"></i>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod2} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod3} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod4} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod5} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod6} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod7} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod8} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                  <div class="single_product_item">
-                    <img src={prod3} alt="" />
-                    <div class="single_product_text">
-                      <h4>Quartz Belt Watch</h4>
-                      <h3>$150.00</h3>
-                      <a href="#" class="add_cart">
-                        + add to cart<i class="fas fa-cart-plus"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                ))}
+
                 <div class="col-lg-12">
                   <div class="pageination">
                     <nav aria-label="Page navigation example">
