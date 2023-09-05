@@ -1,14 +1,17 @@
-import React from "react";
-import prod1 from "../assests/product/product_1.png";
-import prod2 from "../assests/product/product_2.png";
-import prod3 from "../assests/product/product_3.png";
-import prod4 from "../assests/product/product_4.png";
-import prod5 from "../assests/product/product_5.png";
-import prod6 from "../assests/product/product_6.png";
-import prod7 from "../assests/product/product_7.png";
-import prod8 from "../assests/product/product_8.png";
+import React, { useEffect, useState } from "react";
 
 function ProductList() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      let req = await fetch(
+        "http://localhost:1337/api/products?filters[show_on_Homepage][$eq]=true&pagination[page]=1&pagination[pageSize]=4&populate=*"
+      );
+      let res = await req.json();
+      setData(res.data);
+    };
+    getData();
+  }, []);
   return (
     <>
       <section class="product_list section_padding">
@@ -27,102 +30,23 @@ function ProductList() {
               <div class="product_list_slider owl-carousel">
                 <div class="single_product_list_slider">
                   <div class="row align-items-center justify-content-between">
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod1} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
+                    {data.map((item) => (
+                      <div class="col-lg-3 col-sm-6">
+                        <div class="single_product_item">
+                          <img
+                            src={`http://localhost:1337${item?.attributes?.img?.data[0]?.attributes?.url}`}
+                            alt=""
+                          />
+                          <div class="single_product_text">
+                            <h4>{item?.attributes?.title}</h4>
+                            <h3>${item?.attributes?.price}</h3>
+                            <a href="#" class="add_cart">
+                              + add to cart<i class="fas fa-cart-plus"></i>
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod2} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod3} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod4} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod5} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod5} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod7} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="single_product_item">
-                        <img src={prod8} alt="" />
-                        <div class="single_product_text">
-                          <h4>Quartz Belt Watch</h4>
-                          <h3>$150.00</h3>
-                          <a href="#" class="add_cart">
-                            + add to cart<i class="fas fa-cart-plus"></i>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>

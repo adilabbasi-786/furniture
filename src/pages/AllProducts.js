@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./priceRange.css";
 
-import prod1 from "../assests/product/product_1.png";
-import prod2 from "../assests/product/product_2.png";
-import prod3 from "../assests/product/product_3.png";
-import prod4 from "../assests/product/product_4.png";
-import prod5 from "../assests/product/product_4.png";
-import prod6 from "../assests/product/product_5.png";
-import prod7 from "../assests/product/product_6.png";
-import prod8 from "../assests/product/product_7.png";
 import Footer from "../components/Footer";
 
 function AllProducts() {
