@@ -1,7 +1,8 @@
 import React from "react";
 import prod1 from "../assests/product/single-product/product_1.png";
 import Footer from "../components/Footer";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 function SingleProductPage() {
   return (
     <div>
@@ -24,18 +25,17 @@ function SingleProductPage() {
             <div class="col-lg-7 col-xl-7">
               <div class="product_slider_img">
                 <div id="vertical">
-                  <div data-thumb="img/product/single-product/product_1.png">
-                    <img src={prod1} />
-                  </div>
-                  <div data-thumb="img/product/single-product/product_1.png">
-                    <img src={prod1} />
-                  </div>
-                  <div data-thumb="img/product/single-product/product_1.png">
-                    <img src={prod1} />
-                  </div>
-                  <div data-thumb="img/product/single-product/product_1.png">
-                    <img src={prod1} />
-                  </div>
+                  <Carousel>
+                    <div>
+                      <img src={prod1} />
+                    </div>
+                    <div>
+                      <img src={prod1} />
+                    </div>
+                    <div>
+                      <img src={prod1} />
+                    </div>
+                  </Carousel>
                 </div>
               </div>
             </div>

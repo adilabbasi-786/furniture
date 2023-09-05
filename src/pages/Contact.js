@@ -1,6 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function Contact() {
+  const [data, setData] = useState([]);
+  const getData = async () => {
+    let req = await fetch("http://localhost:1337/api/contacts?populate=*");
+    let res = await req.json();
+    setData(res.data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   useEffect(() => {
     // Initialize the map
     function initMap() {
@@ -137,35 +146,37 @@ function Contact() {
                 </div>
               </form>
             </div>
-            <div class="col-lg-4">
-              <div class="media contact-info">
-                <span class="contact-info__icon">
-                  <i class=" fas fa-home"></i>
-                </span>
-                <div class="media-body">
-                  <h3>Buttonwood, California.</h3>
-                  <p>Rosemead, CA 91770</p>
+            {data.map((item) => (
+              <div class="col-lg-4">
+                <div class="media contact-info">
+                  <span class="contact-info__icon">
+                    <i class=" fas fa-home"></i>
+                  </span>
+                  <div class="media-body">
+                    <h3>{item?.attributes?.address}</h3>
+                    <p>Rosemead, CA 91770</p>
+                  </div>
+                </div>
+                <div class="media contact-info">
+                  <span class="contact-info__icon">
+                    <i class="fas fa-tablet"></i>
+                  </span>
+                  <div class="media-body">
+                    <h3>{item?.attributes?.phone_number}</h3>
+                    <p>Mon to Fri 9am to 6pm</p>
+                  </div>
+                </div>
+                <div class="media contact-info">
+                  <span class="contact-info__icon">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <div class="media-body">
+                    <h3>{item?.attributes?.email}</h3>
+                    <p>Send us your query anytime!</p>
+                  </div>
                 </div>
               </div>
-              <div class="media contact-info">
-                <span class="contact-info__icon">
-                  <i class="fas fa-tablet"></i>
-                </span>
-                <div class="media-body">
-                  <h3>00 (440) 9865 562</h3>
-                  <p>Mon to Fri 9am to 6pm</p>
-                </div>
-              </div>
-              <div class="media contact-info">
-                <span class="contact-info__icon">
-                  <i class="fas fa-envelope"></i>
-                </span>
-                <div class="media-body">
-                  <h3>support@colorlib.com</h3>
-                  <p>Send us your query anytime!</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

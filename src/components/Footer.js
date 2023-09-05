@@ -135,22 +135,38 @@ function Footer() {
                 <div class="footer_icon social_icon">
                   <ul class="list-unstyled">
                     <li>
-                      <a href="#" class="single_social_icon">
+                      <a
+                        href="https://www.facebook.com/"
+                        target="blank"
+                        class="single_social_icon"
+                      >
                         <i class="fab fa-facebook-f"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="single_social_icon">
+                      <a
+                        href="https://www.facebook.com/"
+                        target="blank"
+                        class="single_social_icon"
+                      >
                         <i class="fab fa-twitter"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="single_social_icon">
+                      <a
+                        href="https://www.facebook.com/"
+                        target="blank"
+                        class="single_social_icon"
+                      >
                         <i class="fas fa-globe"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="single_social_icon">
+                      <a
+                        href="https://www.facebook.com/"
+                        target="blank"
+                        class="single_social_icon"
+                      >
                         <i class="fab fa-behance"></i>
                       </a>
                     </li>

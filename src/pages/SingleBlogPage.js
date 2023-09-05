@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import prewiew from "../assests/post/preview.png";
 import next from "../assests//post/next.png";
 import authorImg from "../assests/blog/author.png";
@@ -6,8 +6,20 @@ import comentImg from "../assests/comment/comment_1.png";
 import post1 from "../assests/post/post_1.png";
 import post2 from "../assests/post/post_2.png";
 import post3 from "../assests/post/post_3.png";
+import { useParams } from "react-router-dom";
 
-function SingleBlogPage() {
+function SingleBlogPage(item) {
+  const { id } = useParams();
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const getData = async () => {
+      let req = await fetch(`http://localhost:1337/api/blogs/${id}?populate=*`);
+      let res = await req.json();
+      setData(res.data);
+    };
+    getData();
+  }, []);
+  console.log(data);
   return (
     <div>
       {" "}
@@ -28,19 +40,16 @@ function SingleBlogPage() {
         <div class="container">
           <div class="row">
             <div class="col-lg-8 posts-list">
-              <div class="single-post">
+              <div class="single-post" key={item.id}>
                 <div class="feature-img">
                   <img
                     class="img-fluid"
-                    src="img/blog/single_blog_1.png"
+                    src={`http://localhost:1337${data?.attributes?.img?.data[0]?.attributes?.url}`}
                     alt=""
                   />
                 </div>
                 <div class="blog_details">
-                  <h2>
-                    Second divided from form fish beast made every of seas all
-                    gathered us saying he our
-                  </h2>
+                  <h2>{data?.attributes?.title}</h2>
                   <ul class="blog-info-link mt-3 mb-4">
                     <li>
                       <a href="#">
@@ -53,13 +62,7 @@ function SingleBlogPage() {
                       </a>
                     </li>
                   </ul>
-                  <p class="excert">
-                    MCSE boot camps have its supporters and its detractors. Some
-                    people do not understand why you should have to spend money
-                    on boot camp when you can get the MCSE study materials
-                    yourself at a fraction of the camp price. However, who has
-                    the willpower
-                  </p>
+                  <p class="excert">{data?.attributes?.desc}</p>
                   <p>
                     MCSE boot camps have its supporters and its detractors. Some
                     people do not understand why you should have to spend money
@@ -78,21 +81,7 @@ function SingleBlogPage() {
                       self-imposed MCSE training.
                     </div>
                   </div>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some
-                    people do not understand why you should have to spend money
-                    on boot camp when you can get the MCSE study materials
-                    yourself at a fraction of the camp price. However, who has
-                    the willpower
-                  </p>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some
-                    people do not understand why you should have to spend money
-                    on boot camp when you can get the MCSE study materials
-                    yourself at a fraction of the camp price. However, who has
-                    the willpower to actually sit through a self-imposed MCSE
-                    training. who has the willpower to actually
-                  </p>
+                  <p>{data?.attributes?.addtional_desc}</p>
                 </div>
               </div>
               <div class="navigation-top">
