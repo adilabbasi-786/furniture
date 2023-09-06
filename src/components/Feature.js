@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import feature1 from "../assests/feature/feature_1.png";
-import feature2 from "../assests/feature/feature_2.png";
-import feature3 from "../assests/feature/feature_3.png";
-import feature4 from "../assests/feature/feature_4.png";
+import { Link } from "react-router-dom";
 
-function Feature() {
+function Feature({ getProducts }) {
   const [category, setCategory] = useState([]);
 
   const getData = async () => {
@@ -32,17 +29,19 @@ function Feature() {
                 key={index}
                 className={`col-lg-${index % 2 === 0 ? "7" : "5"} col-sm-6`}
               >
-                <div class="single_feature_post_text">
-                  <p>Premium Quality</p>
-                  <h3>Latest foam {item?.attributes?.name}</h3>
-                  <a href="#" class="feature_btn">
-                    EXPLORE NOW <i class="fas fa-play"></i>
-                  </a>
-                  <img
-                    src={`http://localhost:1337${item?.attributes?.img?.data?.attributes?.url}`}
-                    alt=""
-                  />
-                </div>
+                <Link to={`/allproducts?category_id=${item.id}`}>
+                  <div class="single_feature_post_text">
+                    <p>Premium Quality</p>
+                    <h3>Latest foam {item?.attributes?.name}</h3>
+                    <a href="#" class="feature_btn">
+                      EXPLORE NOW <i class="fas fa-play"></i>
+                    </a>
+                    <img
+                      src={`http://localhost:1337${item?.attributes?.img?.data?.attributes?.url}`}
+                      alt=""
+                    />
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

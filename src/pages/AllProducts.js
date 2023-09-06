@@ -3,19 +3,51 @@ import "./priceRange.css";
 import { Link } from "react-router-dom";
 
 import Footer from "../components/Footer";
+import { useSearchParams } from "react-router-dom";
 
 function AllProducts() {
   const [products, setProducts] = useState([]);
   const [sortOrder, setSortOrder] = useState("");
+  const [category, setCategory] = useState([]);
+  const [colorCategory, setColorCategory] = useState([]);
+  const [searchParams] = useSearchParams();
+  const cat_id = searchParams.get("category_id");
+  console.log(cat_id);
 
   const getData = async () => {
-    let req = await fetch("http://localhost:1337/api/products?populate=*");
+    let url = "http://localhost:1337/api/products?populate=*";
+    if (cat_id) {
+      url = `http://localhost:1337/api/products?populate=*&filters[category][id][$eq]=${cat_id}`;
+    }
+    let req = await fetch(url);
     let res = await req.json();
     setProducts(res.data);
   };
   useEffect(() => {
     getData();
   }, []);
+
+  const getCategory = async () => {
+    let url = "http://localhost:1337/api/categories?populate=*";
+
+    let req = await fetch(url);
+    let res = await req.json();
+    setCategory(res.data);
+  };
+  useEffect(() => {
+    getCategory();
+  }, []);
+  const getColor = async () => {
+    let url = "http://localhost:1337/api/colors?populate=*";
+
+    let req = await fetch(url);
+    let res = await req.json();
+    setColorCategory(res.data);
+  };
+  useEffect(() => {
+    getColor();
+  }, []);
+
   const sortedProducts = [...products];
 
   if (sortOrder === "nameAsc") {
@@ -60,76 +92,12 @@ function AllProducts() {
                   </div>
                   <div class="widgets_inner">
                     <ul class="list">
-                      <li>
-                        <a href="#">Frozen Fish</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Dried Fish</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Fresh Fish</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Meat Alternatives</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Fresh Fish</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Meat Alternatives</a>
-                        <span>(250)</span>
-                      </li>
-                      <li>
-                        <a href="#">Meat</a>
-                        <span>(250)</span>
-                      </li>
-                    </ul>
-                  </div>
-                </aside>
-
-                <aside class="left_widgets p_filter_widgets">
-                  <div class="l_w_title">
-                    <h3>Product filters</h3>
-                  </div>
-                  <div class="widgets_inner">
-                    <ul class="list">
-                      <li>
-                        <a href="#">Apple</a>
-                      </li>
-                      <li>
-                        <a href="#">Asus</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">Gionee</a>
-                      </li>
-                      <li>
-                        <a href="#">Micromax</a>
-                      </li>
-                      <li>
-                        <a href="#">Samsung</a>
-                      </li>
-                    </ul>
-                    <ul class="list">
-                      <li>
-                        <a href="#">Apple</a>
-                      </li>
-                      <li>
-                        <a href="#">Asus</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">Gionee</a>
-                      </li>
-                      <li>
-                        <a href="#">Micromax</a>
-                      </li>
-                      <li>
-                        <a href="#">Samsung</a>
-                      </li>
+                      {category.map((cat) => (
+                        <li>
+                          <a href="#">{cat?.attributes?.name}</a>
+                          <span>(250)</span>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </aside>
@@ -140,21 +108,11 @@ function AllProducts() {
                   </div>
                   <div class="widgets_inner">
                     <ul class="list">
-                      <li>
-                        <a href="#">Black</a>
-                      </li>
-                      <li>
-                        <a href="#">Black Leather</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">Black with red</a>
-                      </li>
-                      <li>
-                        <a href="#">Gold</a>
-                      </li>
-                      <li>
-                        <a href="#">Spacegrey</a>
-                      </li>
+                      {colorCategory.map((col) => (
+                        <li>
+                          <a href="#">{col?.attributes?.color_name}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </aside>
