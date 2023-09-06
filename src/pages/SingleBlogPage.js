@@ -19,7 +19,9 @@ function SingleBlogPage(item) {
     };
     getData();
   }, []);
-  console.log(data);
+  useEffect(() => {
+    window.scrollTo(0, 500);
+  }, []);
   return (
     <div>
       {" "}

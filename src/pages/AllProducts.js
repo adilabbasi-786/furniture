@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./priceRange.css";
+import { Link } from "react-router-dom";
 
 import Footer from "../components/Footer";
 
@@ -273,19 +274,21 @@ function AllProducts() {
               <div class="row align-items-center latest_product_inner">
                 {product.map((item) => (
                   <div class="col-lg-4 col-sm-6">
-                    <div class="single_product_item">
-                      <img
-                        src={`http://localhost:1337${item?.attributes?.img?.data[0]?.attributes?.url}`}
-                        alt=""
-                      />
-                      <div class="single_product_text">
-                        <h4>{item?.attributes?.title}</h4>
-                        <h3>${item?.attributes?.price}</h3>
-                        <a href="#" class="add_cart">
-                          + add to cart<i class="fas fa-cart-plus"></i>
-                        </a>
+                    <Link to={`/singleproduct/${item.id}`}>
+                      <div class="single_product_item">
+                        <img
+                          src={`http://localhost:1337${item?.attributes?.img?.data[0]?.attributes?.url}`}
+                          alt=""
+                        />
+                        <div class="single_product_text">
+                          <h4>{item?.attributes?.title}</h4>
+                          <h3>${item?.attributes?.price}</h3>
+                          <a href="#" class="add_cart">
+                            + add to cart<i class="fas fa-cart-plus"></i>
+                          </a>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
 

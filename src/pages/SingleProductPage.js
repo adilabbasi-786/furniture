@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import prod1 from "../assests/product/single-product/product_1.png";
 import Footer from "../components/Footer";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-function SingleProductPage() {
+import { useParams } from "react-router-dom";
+function SingleProductPage(item) {
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      let req = await fetch(
+        `http://localhost:1337/api/products/${id}?populate=*`
+      );
+      let res = await req.json();
+      setData(res.data);
+    };
+    getData();
+  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 500);
+  }, []);
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -20,14 +36,16 @@ function SingleProductPage() {
         </div>
       </section>
       <div class="product_image_area section_padding">
-        <div class="container">
+        <div class="container" key={item.id}>
           <div class="row s_product_inner justify-content-between">
             <div class="col-lg-7 col-xl-7">
               <div class="product_slider_img">
                 <div id="vertical">
                   <Carousel>
                     <div>
-                      <img src={prod1} />
+                      <img
+                        src={`http://localhost:1337${data?.attributes?.img?.data[0]?.attributes?.url}`}
+                      />
                     </div>
                     <div>
                       <img src={prod1} />
@@ -44,8 +62,8 @@ function SingleProductPage() {
                 <h5>
                   previous <span>|</span> next
                 </h5>
-                <h3>Faded SkyBlu Denim Jeans</h3>
-                <h2>$149.99</h2>
+                <h3>{data?.attributes?.title}</h3>
+                <h2>${data?.attributes?.price}</h2>
                 <ul class="list">
                   <li>
                     <a class="active" href="#">
@@ -68,7 +86,7 @@ function SingleProductPage() {
                   <div class="product_count">
                     <span class="inumber-decrement">
                       {" "}
-                      <i class="ti-minus"></i>
+                      <i class="fas fa-minus"></i>
                     </span>
                     <input
                       class="input-number"
@@ -79,7 +97,7 @@ function SingleProductPage() {
                     />
                     <span class="number-increment">
                       {" "}
-                      <i class="ti-plus"></i>
+                      <i class="fas fa-plus"></i>
                     </span>
                   </div>
                   <a href="#" class="btn_3">
@@ -87,7 +105,7 @@ function SingleProductPage() {
                   </a>
                   <a href="#" class="like_us">
                     {" "}
-                    <i class="ti-heart"></i>{" "}
+                    <i class="fas fa-heart"></i>{" "}
                   </a>
                 </div>
               </div>
