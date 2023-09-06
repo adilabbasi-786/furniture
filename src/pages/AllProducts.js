@@ -5,16 +5,35 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 function AllProducts() {
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [sortOrder, setSortOrder] = useState("");
 
   const getData = async () => {
     let req = await fetch("http://localhost:1337/api/products?populate=*");
     let res = await req.json();
-    setProduct(res.data);
+    setProducts(res.data);
   };
   useEffect(() => {
     getData();
   }, []);
+  const sortedProducts = [...products];
+
+  if (sortOrder === "nameAsc") {
+    sortedProducts.sort((a, b) =>
+      a?.attributes?.title.localeCompare(b?.attributes?.title)
+    );
+  } else if (sortOrder === "priceAsc") {
+    sortedProducts.sort((a, b) => a?.attributes?.price - b?.attributes?.price);
+  } else if (sortOrder === "dateNewest") {
+    sortedProducts.sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+  }
+
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+    console.log(event.target.value);
+  };
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -139,90 +158,6 @@ function AllProducts() {
                     </ul>
                   </div>
                 </aside>
-
-                {/* <span class="irs js-irs-0">
-                  <span class="irs">
-                    <span class="irs-line" tabindex="-1">
-                      <span class="irs-line-left"></span>
-                      <span class="irs-line-mid"></span>
-                      <span class="irs-line-right"></span>
-                    </span>
-                    <span class="irs-min" style={{ visibility: "hidden" }}>
-                      tk. 0
-                    </span>
-                    <span class="irs-max" style={{ visibility: "visible" }}>
-                      tk. 1.000
-                    </span>
-                    <span
-                      class="irs-from"
-                      style={{ visibility: "visible", left: "0%;" }}
-                    >
-                      tk. 0
-                    </span>
-                    <span
-                      class="irs-to"
-                      style={{ visibility: "visible", left: " 42.8059%" }}
-                    >
-                      tk. 542
-                    </span>
-                    <span
-                      class="irs-single"
-                      style={{ visibility: "hidden", left: "10.8118%" }}
-                    >
-                      tk. 0 - tk. 542
-                    </span>
-                  </span>
-                  <span class="irs-grid"></span>
-                  <span
-                    class="irs-bar"
-                    style={{ left: "3.69458%", width: "50.1951%;" }}
-                  ></span>
-                  <span
-                    class="irs-shadow shadow-from"
-                    style={{ display: "none;" }}
-                  ></span>
-                  <span
-                    class="irs-shadow shadow-to"
-                    style={{ display: "none;" }}
-                  ></span>
-                  <span class="irs-slider from" style={{ left: "0%" }}></span>
-                  <span
-                    class="irs-slider to type_last"
-                    style={{ left: "50.1951%" }}
-                  ></span>
-                </span> */}
-
-                {/* <aside class="left_widgets p_filter_widgets price_rangs_aside">
-                  <div class="l_w_title">
-                    <h3>Price Filter</h3>
-                  </div>
-                  <div class="widgets_inner">
-                    <div class="range_item">
-                      <div id="slider-range"></div>
-                      <input type="text" class="js-range-slider" value="" />
-                      <div class="d-flex">
-                        <div class="price_text">
-                          <p>Price :</p>
-                        </div>
-                        <div class="price_value d-flex justify-content-center">
-                          <input
-                            type="text"
-                            class="js-input-from"
-                            id="amount"
-                            readonly
-                          />
-                          <span>to</span>
-                          <input
-                            type="text"
-                            class="js-input-to"
-                            id="amount"
-                            readonly
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </aside> */}
               </div>
             </div>
             <div class="col-lg-9">
@@ -236,10 +171,11 @@ function AllProducts() {
                     </div>
                     <div class="single_product_menu d-flex ">
                       <h5>short by : </h5>
-                      <select>
-                        <option data-display="Select">name</option>
-                        <option value="1">price</option>
-                        <option value="2">product</option>
+                      <select onChange={handleSortChange} value={sortOrder}>
+                        <option value="">Select</option>
+                        <option value="nameAsc">Name (A-Z)</option>
+                        <option value="priceAsc">Price (Low to High)</option>
+                        <option value="dateNewest">Newest</option>
                       </select>
                     </div>
                     <div class="single_product_menu d-flex">
@@ -272,7 +208,7 @@ function AllProducts() {
               </div>
 
               <div class="row align-items-center latest_product_inner">
-                {product.map((item) => (
+                {sortedProducts.map((item) => (
                   <div class="col-lg-4 col-sm-6">
                     <Link to={`/singleproduct/${item.id}`}>
                       <div class="single_product_item">
