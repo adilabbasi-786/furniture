@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 function SingleProductPage(item) {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [quantity, setQuantity] = useState(1);
   useEffect(() => {
     const getData = async () => {
       let req = await fetch(
@@ -86,18 +87,26 @@ function SingleProductPage(item) {
                   <div class="product_count">
                     <span class="inumber-decrement">
                       {" "}
-                      <i class="fas fa-minus"></i>
+                      <i
+                        class="fas fa-minus"
+                        onClick={() =>
+                          setQuantity((prev) => (prev == 1 ? 1 : prev - 1))
+                        }
+                      ></i>
                     </span>
                     <input
                       class="input-number"
                       type="text"
-                      value="1"
+                      value={quantity}
                       min="0"
                       max="10"
                     />
                     <span class="number-increment">
                       {" "}
-                      <i class="fas fa-plus"></i>
+                      <i
+                        class="fas fa-plus"
+                        onClick={() => setQuantity((prev) => prev + 1)}
+                      ></i>
                     </span>
                   </div>
                   <a href="#" class="btn_3">

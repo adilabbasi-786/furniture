@@ -9,20 +9,23 @@ import LoginPage from "./pages/LoginPage";
 import AllProducts from "./pages/AllProducts";
 import SingleProductPage from "./pages/SingleProductPage";
 import Register from "./pages/Register";
+import AppContext from "./Context/CartContext";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/singleblog/:id" element={<SingleBlogPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/allproducts" element={<AllProducts />} />
-        <Route path="/singleproduct/:id" element={<SingleProductPage />} />
-      </Routes>
+      <AppContext>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/singleblog/:id" element={<SingleBlogPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/allproducts" element={<AllProducts />} />
+          <Route path="/singleproduct/:id" element={<SingleProductPage />} />
+        </Routes>
+      </AppContext>
     </BrowserRouter>
   );
 }
