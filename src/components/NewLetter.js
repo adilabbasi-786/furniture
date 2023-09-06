@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import p1 from "../assests/subscribe_area.png";
 function NewLetter() {
+  const [email, setEmail] = useState("");
+  const handleClick = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: { email: email },
+      }),
+    };
+    const response = await fetch(
+      `http://localhost:1337/api/newsletters`,
+      requestOptions
+    );
+    const data = await response.json();
+    setEmail("");
+  };
   return (
     <div>
       <section class="subscribe_area section_padding">
@@ -12,6 +28,8 @@ function NewLetter() {
                 <h2>Subscribe to get Updated with new offers</h2>
                 <div class="input-group">
                   <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     type="text"
                     class="form-control"
                     placeholder="enter email address"
@@ -20,7 +38,8 @@ function NewLetter() {
                   />
                   <div class="input-group-append">
                     <a
-                      href="#"
+                      onClick={handleClick}
+                      href=""
                       class="input-group-text btn_2"
                       id="basic-addon2"
                     >

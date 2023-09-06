@@ -1,8 +1,7 @@
 import React from "react";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-
-function LoginPage() {
+function Register() {
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -11,7 +10,7 @@ function LoginPage() {
             <div class="col-lg-8">
               <div class="breadcrumb_iner">
                 <div class="breadcrumb_iner_item">
-                  <h2>Login Page</h2>
+                  <h2>Signup Page</h2>
                 </div>
               </div>
             </div>
@@ -21,32 +20,12 @@ function LoginPage() {
       <section class="login_part padding_top">
         <div class="container">
           <div class="row align-items-center">
-            <div
-              class="col-lg-6 col-md-6"
-              style={{ backgroundColor: "#fd3f3cf7" }}
-            >
-              <div class="login_part_text text-center">
-                <div class="login_part_text_iner">
-                  <h2>New to our Shop?</h2>
-                  <p>
-                    There are advances being made in science and technology
-                    everyday, and a good example of this is the
-                  </p>
-
-                  <Link to={"/signup"}>
-                    <a href="#" class="btn_3">
-                      Create an Account
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </div>
             <div class="col-lg-6 col-md-6">
               <div class="login_part_form">
                 <div class="login_part_form_iner">
                   <h3>
                     Welcome Back ! <br />
-                    Please Sign in now
+                    Please Register yourself in now
                   </h3>
                   <form
                     class="row contact_form"
@@ -66,12 +45,42 @@ function LoginPage() {
                     </div>
                     <div class="col-md-12 form-group p_star">
                       <input
+                        type="text"
+                        class="form-control"
+                        id="first name"
+                        name="first name"
+                        value=""
+                        placeholder="First name"
+                      />
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        value=""
+                        placeholder="Last name"
+                      />
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        value=""
+                        placeholder="password"
+                      />
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                      <input
                         type="password"
                         class="form-control"
                         id="password"
                         name="password"
                         value=""
-                        placeholder="Password"
+                        placeholder="Confirm Password"
                       />
                     </div>
                     <div class="col-md-12 form-group">
@@ -80,11 +89,13 @@ function LoginPage() {
                         <label for="f-option">Remember me</label>
                       </div>
                       <button type="submit" value="submit" class="btn_3">
-                        log in
+                        signup
                       </button>
-                      <a class="lost_pass" href="#">
-                        forget password?
-                      </a>
+                      <Link to={"/login"}>
+                        <a class="lost_pass" href="#">
+                          Log in
+                        </a>
+                      </Link>
                     </div>
                   </form>
                 </div>
@@ -98,4 +109,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Register;
