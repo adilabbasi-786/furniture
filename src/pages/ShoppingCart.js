@@ -54,18 +54,18 @@ function ShoppingCart() {
                           />
                         </div>
                         <div class="media-body">
-                          <p>Minimalistic shop for multipurpose use</p>
+                          <p>{data?.attributes?.title}</p>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <h5>$360.00</h5>
+                      <h5>${data?.attributes?.price}</h5>
                     </td>
                     <td>
                       <div class="product_count">
                         <span class="input-number-decrement">
                           {" "}
-                          <i class="ti-angle-down"></i>
+                          <i class="fas fa-angle-down"></i>
                         </span>
                         <input
                           class="input-number"
@@ -76,7 +76,7 @@ function ShoppingCart() {
                         />
                         <span class="input-number-increment">
                           {" "}
-                          <i class="ti-angle-up"></i>
+                          <i class="fas fa-angle-up"></i>
                         </span>
                       </div>
                     </td>
