@@ -4,10 +4,12 @@ import Footer from "../components/Footer";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 function SingleProductPage(item) {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState("description");
   useEffect(() => {
     const getData = async () => {
       let req = await fetch(
@@ -21,6 +23,9 @@ function SingleProductPage(item) {
   useEffect(() => {
     window.scrollTo(0, 500);
   }, []);
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+  };
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -109,9 +114,11 @@ function SingleProductPage(item) {
                       ></i>
                     </span>
                   </div>
-                  <a href="#" class="btn_3">
-                    add to cart
-                  </a>
+                  <Link to={`/shopingcart/${data.id}`}>
+                    <p class="btn_3" style={{ cursor: "pointer" }}>
+                      add to cart
+                    </p>
+                  </Link>
                   <a href="#" class="like_us">
                     {" "}
                     <i class="fas fa-heart"></i>{" "}
@@ -127,47 +134,55 @@ function SingleProductPage(item) {
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
               <a
-                class="nav-link"
-                id="home-tab"
+                class={`nav-link ${
+                  activeTab === "description" ? "active" : ""
+                }`}
+                id="description-tab"
+                onClick={() => handleTabClick("description")}
                 data-toggle="tab"
-                href="#home"
+                href="#description"
                 role="tab"
-                aria-controls="home"
-                aria-selected="true"
+                aria-controls="description"
+                aria-selected={activeTab === "description"}
               >
                 Description
               </a>
             </li>
             <li class="nav-item">
               <a
-                class="nav-link"
-                id="profile-tab"
+                class={`nav-link ${
+                  activeTab === "specification" ? "active" : ""
+                }`}
+                onClick={() => handleTabClick("specification")}
+                id="specification-tab"
                 data-toggle="tab"
-                href="#profile"
+                href="#specification"
                 role="tab"
-                aria-controls="profile"
-                aria-selected="false"
+                aria-controls="specification"
+                aria-selected={activeTab === "specification"}
               >
                 Specification
               </a>
             </li>
             <li class="nav-item">
               <a
-                class="nav-link"
-                id="contact-tab"
+                class={`nav-link ${activeTab === "comments" ? "active" : ""}`}
+                onClick={() => handleTabClick("comments")}
+                id="comments-tab"
                 data-toggle="tab"
-                href="#contact"
+                href="#comments"
                 role="tab"
-                aria-controls="contact"
-                aria-selected="false"
+                aria-controls="comments"
+                aria-selected={activeTab === "comments"}
               >
                 Comments
               </a>
             </li>
             <li class="nav-item">
               <a
-                class="nav-link active"
-                id="review-tab"
+                class={`nav-link ${activeTab === "reviews" ? "active" : ""}`}
+                onClick={() => handleTabClick("reviews")}
+                id="reviews-tab"
                 data-toggle="tab"
                 href="#review"
                 role="tab"
@@ -180,10 +195,12 @@ function SingleProductPage(item) {
           </ul>
           <div class="tab-content" id="myTabContent">
             <div
-              class="tab-pane fade"
-              id="home"
+              class={`tab-pane fade ${
+                activeTab === "description" ? "show active" : ""
+              }`}
+              id="description"
               role="tabpanel"
-              aria-labelledby="home-tab"
+              aria-labelledby="description-tab"
             >
               <p>
                 Beryl Cook is one of Britain’s most talented and amusing artists
@@ -217,10 +234,12 @@ function SingleProductPage(item) {
               </p>
             </div>
             <div
-              class="tab-pane fade"
-              id="profile"
+              class={`tab-pane fade ${
+                activeTab === "specification" ? "show active" : ""
+              }`}
+              id="specification"
               role="tabpanel"
-              aria-labelledby="profile-tab"
+              aria-labelledby="specification-tab"
             >
               <div class="table-responsive">
                 <table class="table">
@@ -294,10 +313,12 @@ function SingleProductPage(item) {
               </div>
             </div>
             <div
-              class="tab-pane fade"
-              id="contact"
+              class={`tab-pane fade ${
+                activeTab === "comments" ? "show active" : ""
+              }`}
+              id="comments"
               role="tabpanel"
-              aria-labelledby="contact-tab"
+              aria-labelledby="comments-tab"
             >
               <div class="row">
                 <div class="col-lg-6">
@@ -441,10 +462,12 @@ function SingleProductPage(item) {
               </div>
             </div>
             <div
-              class="tab-pane fade show active"
-              id="review"
+              class={`tab-pane fade ${
+                activeTab === "reviews" ? "show active" : ""
+              }`}
+              id="reviews"
               role="tabpanel"
-              aria-labelledby="review-tab"
+              aria-labelledby="reviews-tab"
             >
               <div class="row">
                 <div class="col-lg-6">

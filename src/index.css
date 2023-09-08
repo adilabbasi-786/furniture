@@ -18177,3 +18177,7 @@ a.text-dark:hover {
 .ti-rss-alt:before {
   content: "\e75f";
 }
+
+.activeCategory{
+  color: red;
+}

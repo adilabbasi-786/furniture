@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import { useSearchParams } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
 
 function AllProducts() {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,20 @@ function AllProducts() {
   const [colorCategory, setColorCategory] = useState([]);
   const [searchParams] = useSearchParams();
   const cat_id = searchParams.get("category_id");
-  console.log(cat_id);
+  const [selectedCategory, setSelectedCategory] = useState(cat_id);
+  const color_id = searchParams.get("color_id");
+  const [filter, setFilter] = useState({
+    categories: [],
+    color: [],
+    searchQuery: "",
+    sortby: "",
+    page: 1,
+  });
+  useEffect(() => {
+    let newFilter = structuredClone(filter);
+    newFilter.categories.push(Number(cat_id));
+    setFilter(newFilter);
+  }, [cat_id]);
 
   const getData = async () => {
     let url = "http://localhost:1337/api/products?populate=*";
@@ -25,7 +39,21 @@ function AllProducts() {
   };
   useEffect(() => {
     getData();
-  }, []);
+    getCategory();
+    getColor();
+  }, [color_id]);
+  const getCategoryData = async () => {
+    let url = "http://localhost:1337/api/products?populate=*";
+    if (selectedCategory) {
+      url = `http://localhost:1337/api/products?populate=*&filters[category][id][$eq]=${selectedCategory}`;
+    }
+    let req = await fetch(url);
+    let res = await req.json();
+    setProducts(res.data);
+  };
+  useEffect(() => {
+    getCategoryData();
+  }, [selectedCategory]);
 
   const getCategory = async () => {
     let url = "http://localhost:1337/api/categories?populate=*";
@@ -34,19 +62,16 @@ function AllProducts() {
     let res = await req.json();
     setCategory(res.data);
   };
-  useEffect(() => {
-    getCategory();
-  }, []);
+
   const getColor = async () => {
     let url = "http://localhost:1337/api/colors?populate=*";
-
+    if (color_id) {
+      url = `http://localhost:1337/api/products?populate=*&filters[color][id][$eq]=${color_id}`;
+    }
     let req = await fetch(url);
     let res = await req.json();
     setColorCategory(res.data);
   };
-  useEffect(() => {
-    getColor();
-  }, []);
 
   const sortedProducts = [...products];
 
@@ -63,8 +88,37 @@ function AllProducts() {
   }
 
   const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
-    console.log(event.target.value);
+    let newFilter = structuredClone(filter);
+    newFilter.sortby = event.target.value;
+    setFilter(newFilter);
+  };
+  const handleSearch = (event) => {
+    let newFilter = structuredClone(filter);
+    newFilter.searchQuery = event.target.value;
+    setFilter(newFilter);
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    let newFilter = structuredClone(filter);
+    if (newFilter.categories.includes(categoryId)) {
+      newFilter.categories = filter.categories.filter(
+        (item) => item !== categoryId
+      );
+    } else {
+      newFilter.categories.push(categoryId);
+    }
+
+    setFilter(newFilter);
+  };
+  const handleColorClick = (colorId) => {
+    let newColorFitler = structuredClone(filter);
+    if (newColorFitler.color.includes(colorId)) {
+      newColorFitler.color = filter.color.filter((item) => item !== colorId);
+    } else {
+      newColorFitler.color.push(colorId);
+    }
+
+    setFilter(newColorFitler);
   };
   return (
     <div>
@@ -93,8 +147,25 @@ function AllProducts() {
                   <div class="widgets_inner">
                     <ul class="list">
                       {category.map((cat) => (
-                        <li>
-                          <a href="#">{cat?.attributes?.name}</a>
+                        <li
+                          onClick={() => handleCategoryClick(cat.id)}
+                          className={
+                            cat.id === selectedCategory ? "activeCategory" : ""
+                          }
+                          style={{
+                            cursor: "pointer",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          <span className="">
+                            <input
+                              type="checkbox"
+                              value={cat.id}
+                              checked={filter.categories.includes(cat.id)}
+                            />{" "}
+                            {cat?.attributes?.name}
+                          </span>
+
                           <span>(250)</span>
                         </li>
                       ))}
@@ -109,8 +180,18 @@ function AllProducts() {
                   <div class="widgets_inner">
                     <ul class="list">
                       {colorCategory.map((col) => (
-                        <li>
-                          <a href="#">{col?.attributes?.color_name}</a>
+                        <li
+                          key={col.id}
+                          onClick={() => handleColorClick(col.id)}
+                        >
+                          <span className="">
+                            <input
+                              type="checkbox"
+                              value={col.id}
+                              checked={filter.color.includes(col.id)}
+                            />{" "}
+                            {col?.attributes?.color_name}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -124,31 +205,24 @@ function AllProducts() {
                   <div class="product_top_bar d-flex justify-content-between align-items-center">
                     <div class="single_product_menu">
                       <p>
-                        <span>10000 </span> Prodict Found
+                        <span>{products.length} </span> Products Found
                       </p>
                     </div>
                     <div class="single_product_menu d-flex ">
                       <h5>short by : </h5>
-                      <select onChange={handleSortChange} value={sortOrder}>
+                      <select onChange={handleSortChange} value={filter.sortby}>
                         <option value="">Select</option>
-                        <option value="nameAsc">Name (A-Z)</option>
+                        <option value="pricedesc">price (High to Low) </option>
                         <option value="priceAsc">Price (Low to High)</option>
                         <option value="dateNewest">Newest</option>
                       </select>
                     </div>
-                    <div class="single_product_menu d-flex">
-                      <h5>show :</h5>
-                      <div class="top_pageniation">
-                        <ul>
-                          <li>1</li>
-                          <li>2</li>
-                          <li>3</li>
-                        </ul>
-                      </div>
-                    </div>
+
                     <div class="single_product_menu d-flex">
                       <div class="input-group">
                         <input
+                          onChange={handleSearch}
+                          value={filter.searchQuery}
                           type="text"
                           class="form-control"
                           placeholder="search"
