@@ -28,6 +28,10 @@ function AllProducts() {
     setFilter(newFilter);
   }, [cat_id]);
 
+  useEffect(() => {
+    console.log("sendingdata");
+  }, [filter.categories]);
+
   const getData = async () => {
     let url = "http://localhost:1337/api/products?populate=*";
     if (cat_id) {

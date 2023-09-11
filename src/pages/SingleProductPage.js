@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import prod1 from "../assests/product/single-product/product_1.png";
 import Footer from "../components/Footer";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Context } from "../Context/CartContext";
 function SingleProductPage(item) {
+  const { handleAddToCart } = useContext(Context);
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -115,7 +117,16 @@ function SingleProductPage(item) {
                     </span>
                   </div>
                   <Link to={`/shopingcart/${data.id}`}>
-                    <p class="btn_3" style={{ cursor: "pointer" }}>
+                    <p
+                      class="btn_3"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        console.log(data);
+                        handleAddToCart(data, quantity);
+
+                        setQuantity(1);
+                      }}
+                    >
                       add to cart
                     </p>
                   </Link>

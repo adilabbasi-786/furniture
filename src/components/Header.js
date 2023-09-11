@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assests/logo.png";
 import { NavLink } from "react-router-dom";
+import Cart from "./Cart";
 
 function Header() {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -111,22 +112,7 @@ function Header() {
                 <a href="">
                   <i class="fa fa-heart"></i>
                 </a>
-                <div class="dropdown cart">
-                  <a
-                    class="dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown3"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fas fa-cart-plus"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <div class="single_product"></div>
-                  </div>
-                </div>
+                <Cart />
               </div>
             </nav>
           </div>

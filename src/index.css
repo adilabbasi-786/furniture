@@ -2264,7 +2264,7 @@ ul {
   height: 14px;
   right: -8px;
   top: -8px;
-  content: "5";
+
   text-align: center;
   line-height: 15px;
   font-size: 10px;
@@ -7413,7 +7413,6 @@ h6 {
   padding-left: 18px;
   font-size: 13px;
   background: transparent;
-  
 }
 
 /* line 96, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_contact.scss */
@@ -7514,7 +7513,7 @@ h6 {
 
 /* line 1, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_breadcrumb.scss */
 .breadcrumb_bg {
-   background-image: url("./assests/breadcrumb.png");
+  background-image: url("./assests/breadcrumb.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -18178,6 +18177,20 @@ a.text-dark:hover {
   content: "\e75f";
 }
 
-.activeCategory{
+.activeCategory {
   color: red;
+}
+.cart_count {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #f13d80;
+  width: 14px;
+  height: 14px;
+  right: -8px;
+  top: -8px;
+  content: "5";
+  text-align: center;
+  line-height: 15px;
+  font-size: 10px;
+  color: #fff;
 }
