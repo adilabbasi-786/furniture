@@ -23,7 +23,8 @@ function AllProducts() {
     page: 1,
   });
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
   // useEffect(() => {
   //   let newFilter = structuredClone(filter);
   //   newFilter.categories.push(Number(cat_id));
@@ -50,16 +51,34 @@ function AllProducts() {
       url = url + `&filters[title][$contains]=${filter.searchQuery}`;
     }
     if (filter.page === 1) {
-      const start = 0; // Start from the beginning
+      const start = 0;
       url = `${url}&pagination[start]=${start}&pagination[limit]=${productsPerPage}`;
     } else {
       const start = (currentPage - 1) * productsPerPage;
       url = `${url}&pagination[start]=${start}&pagination[limit]=${productsPerPage}`;
     }
-    getUrlData(url);
 
+    getUrlData(url);
+    fetchProducts(url);
     console.log(url);
   }, [filter, currentPage]);
+
+  const fetchProducts = async (url) => {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data.data);
+        const totalProductsCount = data.meta.pagination.total;
+        const totalPagesCount = Math.ceil(totalProductsCount / productsPerPage);
+        setTotalPages(totalPagesCount);
+      } else {
+        console.error("Failed to fetch products.");
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching products: ", error);
+    }
+  };
   const getUrlData = async (url) => {
     let req = await fetch(url);
     let res = await req.json();
@@ -67,32 +86,11 @@ function AllProducts() {
     setProducts(res.data);
   };
 
-  const getData = async () => {
-    let url = "http://localhost:1337/api/products?populate=*";
-    if (cat_id) {
-      url = `http://localhost:1337/api/products?populate=*&filters[category][id][$eq]=${cat_id}`;
-    }
-    let req = await fetch(url);
-    let res = await req.json();
-    setProducts(res.data);
-  };
   useEffect(() => {
-    getData();
+    // getData();
     getCategory();
     getColor();
   }, [color_id]);
-  const getCategoryData = async () => {
-    let url = "http://localhost:1337/api/products?populate=*";
-    if (selectedCategory) {
-      url = `http://localhost:1337/api/products?populate=*&filters[category][id][$eq]=${selectedCategory}`;
-    }
-    let req = await fetch(url);
-    let res = await req.json();
-    setProducts(res.data);
-  };
-  useEffect(() => {
-    getCategoryData();
-  }, [selectedCategory]);
 
   const getCategory = async () => {
     let url = "http://localhost:1337/api/categories?populate=*";
@@ -160,7 +158,13 @@ function AllProducts() {
     setFilter(newColorFitler);
   };
   const handlePageChange = (page) => {
-    let newFilter = structuredClone(filter);
+    if (page < 1) {
+      page = 1;
+    } else if (page > totalPages) {
+      page = totalPages;
+    }
+
+    let newFilter = { ...filter };
     newFilter.page = page;
     setFilter(newFilter);
     setCurrentPage(page);
@@ -322,34 +326,20 @@ function AllProducts() {
                             <i class="fas fa-angle-double-left"></i>
                           </button>
                         </li>
-                        {Array.from(
-                          {
-                            length: Math.ceil(
-                              products.length / productsPerPage
-                            ),
-                          },
-                          (_, index) => (
-                            <li
-                              class={`page-item ${
-                                currentPage === index + 1 ? "active" : ""
-                              }`}
-                              key={index}
-                            >
-                              <button
-                                class="page-link"
-                                onClick={() => setCurrentPage(index + 1)}
-                              >
-                                {index + 1}
-                              </button>
-                            </li>
-                          )
-                        )}
+                        {Array.from({ length: totalPages }, (_, index) => (
+                          <li
+                            class={`page-item ${
+                              currentPage === index + 1 ? "active" : ""
+                            }`}
+                            key={index}
+                          ></li>
+                        ))}
+                        <p class="page-link">
+                          {currentPage} of {totalPages}
+                        </p>
                         <li
                           class={`page-item ${
-                            currentPage ===
-                            Math.ceil(products.length / productsPerPage)
-                              ? "disabled"
-                              : ""
+                            currentPage === totalPages ? "disabled" : ""
                           }`}
                         >
                           <button

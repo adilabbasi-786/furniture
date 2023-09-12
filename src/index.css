@@ -8031,8 +8031,10 @@ sup {
   top: -0.5em;
 }
 a {
-  color: #007bff;
-  text-decoration: none;
+  color: #0f0e0e;
+  font-weight: bold;
+  font-family: "Poppins";
+
   background-color: transparent;
 }
 a:hover {
@@ -10771,20 +10773,19 @@ input[type="submit"].btn-block {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 85%;
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10rem;
+  min-width: 21rem;
   padding: 0.5rem 0;
-  margin: 0.125rem 0 0;
-  font-size: 1rem;
+  margin: -0.875rem 2.0999999999999996rem;
   color: #212529;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: #c9cacb;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgb(124 85 85 / 15%);
   border-radius: 0.25rem;
 }
 .dropdown-menu-left {
@@ -18184,10 +18185,10 @@ a.text-dark:hover {
   position: absolute;
   border-radius: 50%;
   background-color: #f13d80;
-  width: 14px;
-  height: 14px;
-  right: -8px;
-  top: -8px;
+  width: 18px;
+  height: 18px;
+  right: -4px;
+  top: 26px;
   content: "5";
   text-align: center;
   line-height: 15px;

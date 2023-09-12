@@ -26,16 +26,15 @@ const Cart = () => {
           style={{ cursor: "pointer" }}
         >
           <i class="fas fa-cart-plus" id="cart-icon"></i>
-
-          <span className=" cart_count">{cartCount}</span>
         </a>
+        <span className=" cart_count">{cartCount}</span>
 
         <div
           class="dropdown-menu"
           aria-labelledby="dropdownMenuButton"
           style={openCart ? { display: "block" } : { display: "none" }}
         >
-          <div class="p-3 cart-block">
+          <div class="p-3 cart-block ">
             <MdClose
               style={{
                 gap: "115px",
