@@ -22,15 +22,50 @@ function AllProducts() {
     sortby: "",
     page: 1,
   });
-  useEffect(() => {
-    let newFilter = structuredClone(filter);
-    newFilter.categories.push(Number(cat_id));
-    setFilter(newFilter);
-  }, [cat_id]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 6;
+  // useEffect(() => {
+  //   let newFilter = structuredClone(filter);
+  //   newFilter.categories.push(Number(cat_id));
+  //   setFilter(newFilter);
+  // }, [cat_id]);
 
   useEffect(() => {
-    console.log("sendingdata");
-  }, [filter.categories]);
+    let url = "http://localhost:1337/api/products?populate=*";
+    for (let i = 0; i < filter.categories.length; i++) {
+      url =
+        url + `&filters[$or][${i}][category][id][$eq]=${filter.categories[i]}`;
+    }
+    for (let i = 0; i < filter.color.length; i++) {
+      url = url + `&filters[$or][${i}][color][id][$eq]=${filter.color[i]}`;
+    }
+    if (filter.sortby === "pricedesc") {
+      url = url + `&sort=price:desc`;
+    } else if (filter.sortby === "priceAsc") {
+      url = url + `&sort=price:asc`;
+    } else if (filter.sortby === "dateNewest") {
+      url = url + `&sort=createdAt:desc`;
+    }
+    if (filter.searchQuery !== "") {
+      url = url + `&filters[title][$contains]=${filter.searchQuery}`;
+    }
+    if (filter.page === 1) {
+      const start = 0; // Start from the beginning
+      url = `${url}&pagination[start]=${start}&pagination[limit]=${productsPerPage}`;
+    } else {
+      const start = (currentPage - 1) * productsPerPage;
+      url = `${url}&pagination[start]=${start}&pagination[limit]=${productsPerPage}`;
+    }
+    getUrlData(url);
+
+    console.log(url);
+  }, [filter, currentPage]);
+  const getUrlData = async (url) => {
+    let req = await fetch(url);
+    let res = await req.json();
+    console.log(res);
+    setProducts(res.data);
+  };
 
   const getData = async () => {
     let url = "http://localhost:1337/api/products?populate=*";
@@ -123,6 +158,12 @@ function AllProducts() {
     }
 
     setFilter(newColorFitler);
+  };
+  const handlePageChange = (page) => {
+    let newFilter = structuredClone(filter);
+    newFilter.page = page;
+    setFilter(newFilter);
+    setCurrentPage(page);
   };
   return (
     <div>
@@ -268,45 +309,56 @@ function AllProducts() {
                   <div class="pageination">
                     <nav aria-label="Page navigation example">
                       <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Previous">
+                        <li
+                          class={`page-item ${
+                            currentPage === 1 ? "disabled" : ""
+                          }`}
+                        >
+                          <button
+                            class="page-link"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            aria-label="Previous"
+                          >
                             <i class="fas fa-angle-double-left"></i>
-                          </a>
+                          </button>
                         </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            1
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            2
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            3
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            4
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            5
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">
-                            6
-                          </a>
-                        </li>
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Next">
+                        {Array.from(
+                          {
+                            length: Math.ceil(
+                              products.length / productsPerPage
+                            ),
+                          },
+                          (_, index) => (
+                            <li
+                              class={`page-item ${
+                                currentPage === index + 1 ? "active" : ""
+                              }`}
+                              key={index}
+                            >
+                              <button
+                                class="page-link"
+                                onClick={() => setCurrentPage(index + 1)}
+                              >
+                                {index + 1}
+                              </button>
+                            </li>
+                          )
+                        )}
+                        <li
+                          class={`page-item ${
+                            currentPage ===
+                            Math.ceil(products.length / productsPerPage)
+                              ? "disabled"
+                              : ""
+                          }`}
+                        >
+                          <button
+                            class="page-link"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            aria-label="Next"
+                          >
                             <i class="fas fa-angle-double-right"></i>
-                          </a>
+                          </button>
                         </li>
                       </ul>
                     </nav>

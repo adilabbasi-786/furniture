@@ -13,7 +13,7 @@ const Cart = () => {
 
   return (
     <>
-      <div class="dropdown cart">
+      <div>
         <a
           class="dropdown-toggle"
           href="#"
