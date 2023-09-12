@@ -116,20 +116,18 @@ function SingleProductPage(item) {
                       ></i>
                     </span>
                   </div>
-                  <Link to={`/shopingcart/${data.id}`}>
-                    <p
-                      class="btn_3"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        console.log(data);
-                        handleAddToCart(data, quantity);
+                  <p
+                    class="btn_3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      console.log(data);
+                      handleAddToCart(data, quantity);
 
-                        setQuantity(1);
-                      }}
-                    >
-                      add to cart
-                    </p>
-                  </Link>
+                      setQuantity(1);
+                    }}
+                  >
+                    add to cart
+                  </p>
                   <a href="#" class="like_us">
                     {" "}
                     <i class="fas fa-heart"></i>{" "}

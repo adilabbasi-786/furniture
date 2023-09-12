@@ -1,19 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assests/logo.png";
 import { NavLink } from "react-router-dom";
 import Cart from "./Cart";
+import "./Header.css";
 
 function Header() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const handleToggle = () => {
     setNavbarOpen(!navbarOpen);
   };
   const handleSearchToggle = () => {
     setSearchOpen(!searchOpen);
   };
+  const handleScroll = () => {
+    const offSet = window.scrollY;
+    if (offSet > 200) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <header class="main_menu home_menu">
+    <header
+      class={`main_menu home_menu  ${scrolled ? "sticky-header" : ""}`}
+      style={{ zIndex: "999" }}
+    >
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-12">

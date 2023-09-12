@@ -41,28 +41,37 @@ function CartItem() {
               <div>
                 <div class="fables-calc fables-light-background-color fables-btn-rouned">
                   <div>
-                    <span
+                    {/* <span
                       onClick={() => handleCartProductQuantity("dec", item)}
                       class="calc-btn minus fables-forth-text-color float-left calc-width mt-2"
                       id="decrement"
                     >
                       -
-                    </span>
+                    </span> */}
                   </div>
                   <span class="calc-width" id="total_count">
                     <p
                       class="fables-forth-text-color"
                       style={{ fontSize: "15px" }}
                     >
-                      {item.attributes.quantity}
+                      <i
+                        class="fas fa-minus"
+                        onClick={() => handleCartProductQuantity("dec", item)}
+                      ></i>{" "}
+                      <span>{item.attributes.quantity}</span>{" "}
+                      <i
+                        class="fas fa-plus"
+                        onClick={() => handleCartProductQuantity("inc", item)}
+                      ></i>
                     </p>
                   </span>
-                  <span
+
+                  {/* <span
                     class="calc-btn plus fables-forth-text-color float-right calc-width mt-2"
                     onClick={() => handleCartProductQuantity("inc", item)}
                   >
                     +
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>
