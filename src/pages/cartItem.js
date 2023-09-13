@@ -8,7 +8,10 @@ function CartItem() {
     useContext(Context);
   return (
     <>
-      <div className="dropdown_menu">
+      <div
+        className="dropdown_menu"
+        style={{ maxHeight: "450px", overflowY: "scroll" }}
+      >
         <p class="fables-second-text-color semi-font mb-4 font-17">
           Shopping Cart
         </p>
@@ -40,15 +43,7 @@ function CartItem() {
               </p>
               <div>
                 <div class="fables-calc fables-light-background-color fables-btn-rouned">
-                  <div>
-                    {/* <span
-                      onClick={() => handleCartProductQuantity("dec", item)}
-                      class="calc-btn minus fables-forth-text-color float-left calc-width mt-2"
-                      id="decrement"
-                    >
-                      -
-                    </span> */}
-                  </div>
+                  <div></div>
                   <span class="calc-width" id="total_count">
                     <p
                       class="fables-forth-text-color"
@@ -65,13 +60,6 @@ function CartItem() {
                       ></i>
                     </p>
                   </span>
-
-                  {/* <span
-                    class="calc-btn plus fables-forth-text-color float-right calc-width mt-2"
-                    onClick={() => handleCartProductQuantity("inc", item)}
-                  >
-                    +
-                  </span> */}
                 </div>
               </div>
             </div>

@@ -25,6 +25,7 @@ function AllProducts() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
   const [totalPages, setTotalPages] = useState(1);
+  const [totalproductsFound, setTotalProductsFound] = useState(0);
   // useEffect(() => {
   //   let newFilter = structuredClone(filter);
   //   newFilter.categories.push(Number(cat_id));
@@ -72,6 +73,8 @@ function AllProducts() {
         const totalProductsCount = data.meta.pagination.total;
         const totalPagesCount = Math.ceil(totalProductsCount / productsPerPage);
         setTotalPages(totalPagesCount);
+        setTotalProductsFound(totalProductsCount);
+        console.log(totalProductsCount);
       } else {
         console.error("Failed to fetch products.");
       }
@@ -254,7 +257,7 @@ function AllProducts() {
                   <div class="product_top_bar d-flex justify-content-between align-items-center">
                     <div class="single_product_menu">
                       <p>
-                        <span>{products.length} </span> Products Found
+                        <span>{totalproductsFound} </span> Products Found
                       </p>
                     </div>
                     <div class="single_product_menu d-flex ">

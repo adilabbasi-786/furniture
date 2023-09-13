@@ -1,5 +1,6 @@
 .sticky-header {
-  background-color: rgba(153, 158, 158, 0.986);
+  /* background-color: rgba(153, 158, 158, 0.986); */
+  background-color: #ecfdff;
   color: white;
   position: sticky;
   top: 0;

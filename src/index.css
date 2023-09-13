@@ -8034,6 +8034,7 @@ a {
   color: #0f0e0e;
   font-weight: bold;
   font-family: "Poppins";
+  font-size: initial;
 
   background-color: transparent;
 }
@@ -10783,7 +10784,7 @@ input[type="submit"].btn-block {
   color: #212529;
   text-align: left;
   list-style: none;
-  background-color: #c9cacb;
+  background-color: #e9ecef;
   background-clip: padding-box;
   border: 1px solid rgb(124 85 85 / 15%);
   border-radius: 0.25rem;
