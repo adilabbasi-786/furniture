@@ -10,7 +10,7 @@ import AllProducts from "./pages/AllProducts";
 import SingleProductPage from "./pages/SingleProductPage";
 import Register from "./pages/Register";
 import AppContext from "./Context/CartContext";
-import ShoppingCart from "./pages/ShoppingCart";
+import ProductsCheckout from "./pages/productsCheckout";
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +25,7 @@ function App() {
           <Route path="/signup" element={<Register />} />
           <Route path="/allproducts" element={<AllProducts />} />
           <Route path="/singleproduct/:id" element={<SingleProductPage />} />
-          <Route path="/shopingcart/:id" element={<ShoppingCart />} />
+          <Route path="/productcheckout" element={<ProductsCheckout />} />
         </Routes>
       </AppContext>
     </BrowserRouter>
