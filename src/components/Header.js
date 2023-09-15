@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assests/logo.png";
 import { NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import "./Header.css";
+import { AuthContext } from "../Context/AuthContext";
 
 function Header() {
+  const auth = useContext(AuthContext);
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -25,6 +27,11 @@ function Header() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
   }, []);
+
+  const logoutHandle = () => {
+    auth.setToken(null);
+    localStorage.removeItem("token");
+  };
   return (
     <header
       class={`main_menu home_menu  ${scrolled ? "sticky-header" : ""}`}
@@ -64,9 +71,7 @@ function Header() {
                 <ul class="navbar-nav">
                   <li class="nav-item">
                     <NavLink to="/">
-                      <a class="nav-link" href="index.html">
-                        Home
-                      </a>
+                      <a class="nav-link">Home</a>
                     </NavLink>
                   </li>
                   <NavLink to="/allproducts">
@@ -111,14 +116,25 @@ function Header() {
                       </a>
                     </li>
                   </NavLink>
+                  {auth.token === null && (
+                    <NavLink to="/login">
+                      <li class="nav-item">
+                        <a class="nav-link" href="">
+                          Login
+                        </a>
+                      </li>
+                    </NavLink>
+                  )}
 
-                  <NavLink to="/login">
-                    <li class="nav-item">
-                      <a class="nav-link" href="">
-                        Login
-                      </a>
-                    </li>
-                  </NavLink>
+                  {auth.token !== null && (
+                    <NavLink to="/" onClick={logoutHandle}>
+                      <li class="nav-item">
+                        <a class="nav-link" href="">
+                          Logout
+                        </a>
+                      </li>
+                    </NavLink>
+                  )}
                 </ul>
               </div>
               <div class="hearer_icon d-flex">

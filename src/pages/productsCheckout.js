@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Footer from "../components/Footer";
 import AppContext, { Context } from "../Context/CartContext";
 import { MdClose } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const ProductsCheckout = () => {
   const Cart = useContext(AppContext);
@@ -263,7 +264,7 @@ const ProductsCheckout = () => {
                       <ul class="list">
                         <li>
                           <MdClose onClick={() => handleRemoveFromCart(item)} />{" "}
-                          <a href="#">
+                          <Link to={`/singleproduct/${item.id}`}>
                             {item.attributes.title}
                             <span class="middle">
                               x {item.attributes.quantity}{" "}
@@ -272,7 +273,7 @@ const ProductsCheckout = () => {
                               $
                               {item.attributes.quantity * item.attributes.price}
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>

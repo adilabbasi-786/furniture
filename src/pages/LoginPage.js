@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 function LoginPage() {
+  const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handlelogin = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        identifier: email,
+        password: password,
+      }),
+    };
+    const response = await fetch(
+      `http://localhost:1337/api/auth/local`,
+      requestOptions
+    );
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      alert("invalid user and password");
+    } else {
+      setEmail("");
+      setPassword("");
+      auth.setToken(responseData.jwt);
+      localStorage.setItem("token", responseData.jwt);
+      navigate("/");
+    }
+  };
+
   return (
     <div>
       <section class="breadcrumb breadcrumb_bg">
@@ -48,45 +79,43 @@ function LoginPage() {
                     Welcome Back ! <br />
                     Please Sign in now
                   </h3>
-                  <form
-                    class="row contact_form"
-                    action="#"
-                    method="post"
-                    novalidate="novalidate"
-                  >
-                    <div class="col-md-12 form-group p_star">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        name="name"
-                        value=""
-                        placeholder="Username"
-                      />
+
+                  <div class="col-md-12 form-group p_star">
+                    <label>Email address</label>
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      type="email"
+                      className="form-control mt-1"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="col-md-12 form-group p_star">
+                    <label>Password</label>
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      type="password"
+                      className="form-control mt-1"
+                      placeholder="Enter password"
+                    />
+                  </div>
+                  <div class="col-md-12 form-group">
+                    <div class="creat_account d-flex align-items-center">
+                      <input type="checkbox" id="f-option" name="selector" />
+                      <label for="f-option">Remember me</label>
                     </div>
-                    <div class="col-md-12 form-group p_star">
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="password"
-                        name="password"
-                        value=""
-                        placeholder="Password"
-                      />
-                    </div>
-                    <div class="col-md-12 form-group">
-                      <div class="creat_account d-flex align-items-center">
-                        <input type="checkbox" id="f-option" name="selector" />
-                        <label for="f-option">Remember me</label>
-                      </div>
-                      <button type="submit" value="submit" class="btn_3">
-                        log in
-                      </button>
-                      <a class="lost_pass" href="#">
-                        forget password?
-                      </a>
-                    </div>
-                  </form>
+                    <button
+                      type="submit"
+                      onClick={handlelogin}
+                      value="submit"
+                      class="btn_3"
+                    >
+                      log in
+                    </button>
+                    <a class="lost_pass" href="#">
+                      forget password?
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
