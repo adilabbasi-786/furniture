@@ -4,6 +4,16 @@ export const AuthContext = createContext();
 
 function Auth(props) {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+  };
   return (
     <AuthContext.Provider value={{ token: token, setToken: setToken }}>
       {props.children}
