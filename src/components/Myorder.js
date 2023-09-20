@@ -36,7 +36,7 @@ function Myorder() {
       </section>
       {auth.token && (
         <div style={{ margin: "25px" }}>
-          <h1>my booking</h1>
+          <h1>my orders</h1>
           <div style={{ marginTop: "20px" }}>
             <table class="table">
               <thead>
