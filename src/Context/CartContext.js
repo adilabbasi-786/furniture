@@ -8,7 +8,7 @@ const AppContext = ({ children }) => {
   if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));
   }
-  const [cartItems, setCartItems] = useState(cart);
+  const [cartItems, setCartItems] = useState(cart || []);
   const [cartCount, setCartCount] = useState(0);
   const [cartSubTotal, setCartSubTotal] = useState(0);
 
@@ -44,6 +44,7 @@ const AppContext = ({ children }) => {
   const handleRemoveFromCart = (product) => {
     let items = [...cartItems];
     items = items?.filter((p) => p.id !== product.id);
+    localStorage.setItem("cart", JSON.stringify(items));
     setCartItems(items);
   };
   const handleCartProductQuantity = (type, product) => {

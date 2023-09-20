@@ -1,11 +1,58 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Footer from "../components/Footer";
 import AppContext, { Context } from "../Context/CartContext";
 import { MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 
 const ProductsCheckout = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [note, setNote] = useState("");
+  const auth = useContext(AuthContext);
   const Cart = useContext(AppContext);
+
+  const clickHandle = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
+      },
+      body: JSON.stringify({
+        data: {
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          address: address,
+          email: email,
+          city: city,
+          note: note,
+          zipCode: zipCode,
+        },
+      }),
+    };
+    const response = await fetch(
+      `http://localhost:1337/api/orders`,
+      requestOptions
+    );
+    const data = await response.json();
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setAddress("");
+    setCity("");
+    setNote("");
+    setPhoneNumber("");
+    setZipCode("");
+    alert("booking created succefully");
+  };
+
   const {
     cartItems,
     handleRemoveFromCart,
@@ -46,7 +93,8 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="first"
-                      name="name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                     />
                     <span
                       class="placeholder"
@@ -58,7 +106,8 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="last"
-                      name="name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
                     />
                     <span
                       class="placeholder"
@@ -71,7 +120,8 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="number"
-                      name="number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                     <span
                       class="placeholder"
@@ -83,7 +133,8 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="email"
-                      name="compemailany"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                     <span
                       class="placeholder"
@@ -102,25 +153,15 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="add1"
-                      name="add1"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
                     />
                     <span
                       class="placeholder"
                       data-placeholder="Address line 01"
                     ></span>
                   </div>
-                  <div class="col-md-12 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="add2"
-                      name="add2"
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Address line 02"
-                    ></span>
-                  </div>
+
                   <div class="col-md-12 form-group p_star">
                     <input
                       type="text"
@@ -134,10 +175,13 @@ const ProductsCheckout = () => {
                     ></span>
                   </div>
                   <div class="col-md-12 form-group p_star">
-                    <select class="country_select nice-select">
-                      <option value="1">Rawalpindi</option>
-                      <option value="2">Lahore</option>
-                      <option value="4">karachi</option>
+                    <select
+                      class="country_select nice-select"
+                      onChange={(e) => setCity(e.target.value)}
+                    >
+                      <option value="rawalpidni">Rawalpindi</option>
+                      <option value="lahore">Lahore</option>
+                      <option value="karachi">karachi</option>
                     </select>
                   </div>
                   <div class="col-md-12 form-group">
@@ -145,8 +189,9 @@ const ProductsCheckout = () => {
                       type="text"
                       class="form-control"
                       id="zip"
-                      name="zip"
+                      value={zipCode}
                       placeholder="Postcode/ZIP"
+                      onChange={(e) => setZipCode(e.target.value)}
                     />
                   </div>
                   <div class="col-md-12 form-group"></div>
@@ -156,10 +201,11 @@ const ProductsCheckout = () => {
                     </div>
                     <textarea
                       class="form-control"
-                      name="message"
+                      value={note}
                       id="message"
                       rows="1"
                       placeholder="Order Notes"
+                      onChange={(e) => setNote(e.target.value)}
                     ></textarea>
                   </div>
                 </form>
@@ -243,9 +289,9 @@ const ProductsCheckout = () => {
                     <label for="f-option4">I’ve read and accept the </label>
                     <a href="#">terms & conditions*</a>
                   </div>
-                  <a class="btn_3" href="#">
+                  <button class="btn_3" type="submit" onClick={clickHandle}>
                     Buy Now
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

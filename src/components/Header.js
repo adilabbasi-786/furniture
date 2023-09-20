@@ -117,23 +117,34 @@ function Header() {
                     </li>
                   </NavLink>
                   {auth.token === null && (
-                    <NavLink to="/login">
-                      <li class="nav-item">
-                        <a class="nav-link" href="">
-                          Login
-                        </a>
-                      </li>
-                    </NavLink>
+                    <>
+                      <NavLink to="/login">
+                        <li class="nav-item">
+                          <a class="nav-link" href="">
+                            Login
+                          </a>
+                        </li>
+                      </NavLink>
+                    </>
                   )}
 
                   {auth.token !== null && (
-                    <NavLink to="/" onClick={logoutHandle}>
-                      <li class="nav-item">
-                        <a class="nav-link" href="">
-                          Logout
-                        </a>
-                      </li>
-                    </NavLink>
+                    <>
+                      <NavLink to="/myorders">
+                        <li class="nav-item">
+                          <a class="nav-link" href="">
+                            My Orders
+                          </a>
+                        </li>
+                      </NavLink>
+                      <NavLink to="/" onClick={logoutHandle}>
+                        <li class="nav-item">
+                          <a class="nav-link" href="">
+                            Logout
+                          </a>
+                        </li>
+                      </NavLink>
+                    </>
                   )}
                 </ul>
               </div>

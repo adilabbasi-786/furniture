@@ -11,6 +11,7 @@ import SingleProductPage from "./pages/SingleProductPage";
 import Register from "./pages/Register";
 import AppContext from "./Context/CartContext";
 import ProductsCheckout from "./pages/productsCheckout";
+import Myorder from "./components/Myorder";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/allproducts" element={<AllProducts />} />
           <Route path="/singleproduct/:id" element={<SingleProductPage />} />
           <Route path="/productcheckout" element={<ProductsCheckout />} />
+          <Route path="/myorders" element={<Myorder />} />
         </Routes>
       </AppContext>
     </BrowserRouter>

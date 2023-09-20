@@ -15,7 +15,7 @@ function Auth(props) {
     localStorage.removeItem("token");
   };
   return (
-    <AuthContext.Provider value={{ token: token, setToken: setToken }}>
+    <AuthContext.Provider value={{ token: token, setToken: setToken, logout }}>
       {props.children}
     </AuthContext.Provider>
   );
