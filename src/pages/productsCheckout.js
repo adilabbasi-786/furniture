@@ -2,9 +2,8 @@ import React, { useContext, useState } from "react";
 import Footer from "../components/Footer";
 import AppContext, { Context } from "../Context/CartContext";
 import { MdClose } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
-
 const ProductsCheckout = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,8 +15,26 @@ const ProductsCheckout = () => {
   const [note, setNote] = useState("");
   const auth = useContext(AuthContext);
   const Cart = useContext(AppContext);
+  const navigate = useNavigate();
 
   const clickHandle = async () => {
+    // if (!auth.isAuthenticated) {
+    //   alert("please login first");
+    //   navigate("/login");
+    //   return;
+    // }
+    // if (
+    //   !firstName ||
+    //   !lastName ||
+    //   !phoneNumber ||
+    //   !email ||
+    //   !address ||
+    //   !city ||
+    //   !zipCode
+    // ) {
+    //   alert("Please fill in all billing details.");
+    //   return;
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -82,133 +99,109 @@ const ProductsCheckout = () => {
             <div class="row">
               <div class="col-lg-6">
                 <h3>Billing Details</h3>
-                <form
-                  class="row contact_form"
-                  action="#"
-                  method="post"
-                  novalidate="novalidate"
-                >
-                  <div class="col-md-6 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="first"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="First name"
-                    ></span>
-                  </div>
-                  <div class="col-md-6 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="last"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Last name"
-                    ></span>
-                  </div>
 
-                  <div class="col-md-6 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="number"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Phone number"
-                    ></span>
-                  </div>
-                  <div class="col-md-6 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Email Address"
-                    ></span>
-                  </div>
-                  <div class="col-md-12 form-group p_star">
-                    <select class="nice-select country_select">
-                      <option value="1">Country</option>
-                      <option value="2">Country</option>
-                      <option value="4">Country</option>
-                    </select>
-                  </div>
-                  <div class="col-md-12 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="add1"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Address line 01"
-                    ></span>
-                  </div>
+                <div class="col-md-6 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="first"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First name"
+                  />
+                </div>
+                <div class="col-md-6 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="last"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Last name"
+                  />
+                </div>
 
-                  <div class="col-md-12 form-group p_star">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="city"
-                      name="city"
-                    />
-                    <span
-                      class="placeholder"
-                      data-placeholder="Town/City"
-                    ></span>
+                <div class="col-md-6 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Phone number"
+                  />
+                </div>
+                <div class="col-md-6 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter Email"
+                  />
+                </div>
+                <div class="col-md-12 form-group p_star">
+                  <select class="nice-select country_select">
+                    <option value="1">Country</option>
+                    <option value="2">Country</option>
+                    <option value="4">Country</option>
+                  </select>
+                </div>
+                <div class="col-md-12 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="add1"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter Your Address"
+                  />
+                </div>
+
+                <div class="col-md-12 form-group p_star">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="city"
+                    name="city"
+                    placeholder="Enter Your city name"
+                  />
+                </div>
+                <div class="col-md-12 form-group p_star">
+                  <select
+                    class="country_select nice-select"
+                    onChange={(e) => setCity(e.target.value)}
+                  >
+                    <option value="rawalpidni">Rawalpindi</option>
+                    <option value="lahore">Lahore</option>
+                    <option value="karachi">karachi</option>
+                  </select>
+                </div>
+                <div class="col-md-12 form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="zip"
+                    value={zipCode}
+                    placeholder="Postcode/ZIP"
+                    onChange={(e) => setZipCode(e.target.value)}
+                  />
+                </div>
+                <div class="col-md-12 form-group"></div>
+                <div class="col-md-12 form-group">
+                  <div class="creat_account">
+                    <h3>Shipping Details</h3>
                   </div>
-                  <div class="col-md-12 form-group p_star">
-                    <select
-                      class="country_select nice-select"
-                      onChange={(e) => setCity(e.target.value)}
-                    >
-                      <option value="rawalpidni">Rawalpindi</option>
-                      <option value="lahore">Lahore</option>
-                      <option value="karachi">karachi</option>
-                    </select>
-                  </div>
-                  <div class="col-md-12 form-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="zip"
-                      value={zipCode}
-                      placeholder="Postcode/ZIP"
-                      onChange={(e) => setZipCode(e.target.value)}
-                    />
-                  </div>
-                  <div class="col-md-12 form-group"></div>
-                  <div class="col-md-12 form-group">
-                    <div class="creat_account">
-                      <h3>Shipping Details</h3>
-                    </div>
-                    <textarea
-                      class="form-control"
-                      value={note}
-                      id="message"
-                      rows="1"
-                      placeholder="Order Notes"
-                      onChange={(e) => setNote(e.target.value)}
-                    ></textarea>
-                  </div>
-                </form>
+                  <textarea
+                    class="form-control"
+                    value={note}
+                    id="message"
+                    rows="1"
+                    placeholder="Order Notes"
+                    onChange={(e) => setNote(e.target.value)}
+                  ></textarea>
+                </div>
               </div>
               <div class="col-lg-6">
                 <div class="order_box">

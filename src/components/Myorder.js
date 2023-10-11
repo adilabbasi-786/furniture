@@ -15,7 +15,7 @@ function Myorder() {
     getData();
   }, []);
   const deleteBooking = async (id) => {
-    await fetch(`http://localhost:1337/api/orders`, {
+    await fetch(`http://localhost:1337/api/orders/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${auth.token}` },
     });
@@ -57,21 +57,23 @@ function Myorder() {
                 {data.map((item) => (
                   <tr>
                     <th scope="row">{item.id}</th>
-                    <td>{item?.attributes?.firstName}</td>
-                    <td>{item?.attributes?.lastName}</td>
-                    <td>{item?.attributes?.email}</td>
-                    <td>{item?.attributes?.phoneNumber}</td>
-                    <td>{item?.attributes?.address}</td>
+                    <td>{item?.firstName}</td>
+                    <td>{item?.lastName}</td>
+                    <td>{item?.email}</td>
+                    <td>{item?.phoneNumber}</td>
+                    <td>{item?.address}</td>
                     {/* <td>{getPaymentBox(item?.Status, item.id, item.reviews)}</td> */}
                     <td>
-                      {item?.attributes?.Status === "pending" && (
-                        <button onClick={() => deleteBooking(item.id)}>
-                          <i
-                            class="fas fa-trash"
-                            style={{ color: "#d91c1c" }}
-                          ></i>
-                        </button>
-                      )}
+                      <button>view items</button>
+                    </td>
+                    <td>paid</td>
+                    <td>
+                      <button onClick={() => deleteBooking(item.id)}>
+                        <i
+                          class="fas fa-trash-alt"
+                          style={{ color: "#d91c1c" }}
+                        ></i>
+                      </button>
                     </td>
                   </tr>
                 ))}
